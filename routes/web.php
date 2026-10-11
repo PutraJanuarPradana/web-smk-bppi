@@ -37,6 +37,7 @@ Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class,
     Route::resource('faq', App\Http\Controllers\Admin\FaqController::class);
     Route::get('/setting', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('setting.index');
     Route::put('/setting', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('setting.update');
+    Route::resource('menu', App\Http\Controllers\Admin\MenuController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
