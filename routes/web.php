@@ -27,9 +27,7 @@ Route::get('/portal-sekolah-99', function () {
 // RUTE ADMIN (Harus login dulu)
 // ==========================================
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
     Route::resource('gallery', App\Http\Controllers\Admin\GalleryController::class);
