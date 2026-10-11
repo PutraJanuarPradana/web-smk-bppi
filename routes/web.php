@@ -1,18 +1,40 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes - SMK BPPI
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// ==========================================
+// RUTE PUBLIK (Bisa diakses semua orang)
+// ==========================================
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); // Nanti akan kita ubah ke view home
+})->name('home');
+
+// ==========================================
+// RUTE RAHASIA (Easter Egg) - Hanya admin yang tahu
+// ==========================================
+Route::get('/portal-sekolah-99', function () {
+    return view('auth.login');
+})->middleware('guest')->name('login');
+
+// ==========================================
+// RUTE ADMIN (Harus login dulu)
+// ==========================================
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+    // Profile (bawaan Breeze)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';
