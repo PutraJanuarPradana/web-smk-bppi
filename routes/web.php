@@ -27,15 +27,14 @@ Route::get('/portal-sekolah-99', function () {
 // RUTE ADMIN (Harus login dulu)
 // ==========================================
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
 
-    // CRUD Berita
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
+    Route::resource('gallery', App\Http\Controllers\Admin\GalleryController::class);
+    Route::resource('extracurricular', App\Http\Controllers\Admin\ExtracurricularController::class);
 
-    // Profile (bawaan Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
