@@ -34,6 +34,7 @@ Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class,
     Route::resource('extracurricular', App\Http\Controllers\Admin\ExtracurricularController::class);
     Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
     Route::resource('major', App\Http\Controllers\Admin\MajorController::class);
+    Route::resource('faq', App\Http\Controllers\Admin\FaqController::class);
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
