@@ -26,19 +26,43 @@
         </div>
     </div>
 
-    <!-- TENTANG KAMI -->
-    <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12" data-aos="fade-up">
-                <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">Tentang Sekolah</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Mengenal SMK BPPI Baleendah</h2>
+<!-- TENTANG KAMI -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">Tentang Sekolah</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Mengenal SMK BPPI Baleendah</h2>
+        </div>
+
+        <!-- Kotak Biru Polos -->
+        <div class="relative rounded-2xl shadow-xl overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800" data-aos="fade-up">
+            <div class="absolute inset-0 opacity-10">
+                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid-about" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid-about)"/>
+                </svg>
             </div>
-            <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line bg-gray-50 rounded-2xl p-8 md:p-12" data-aos="fade-up">
-                {{ $settings['about_text'] ?? 'Deskripsi sekolah belum tersedia.' }}
+            <div class="relative p-8 md:p-12 text-white">
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-14 h-14 flex-shrink-0 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold">{{ $settings['about_title'] ?? 'Tentang SMK BPPI Baleendah' }}</h3>
+                        <p class="text-blue-100 text-sm mt-1">Hijau Bersih Berkarakter</p>
+                    </div>
+                </div>
+                <div class="text-blue-50 leading-relaxed whitespace-pre-line text-base md:text-lg">
+                    {{ $settings['about_text'] ?? 'Deskripsi sekolah belum tersedia.' }}
+                </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
     <!-- VISI MISI -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
