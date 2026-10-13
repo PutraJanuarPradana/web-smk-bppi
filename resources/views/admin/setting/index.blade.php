@@ -115,18 +115,6 @@
                               placeholder="Tulis deskripsi lengkap tentang sekolah..."
                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">{{ $settings['about_text'] }}</textarea>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Foto Section Tentang (Opsional)</label>
-                    @if(!empty($settings['about_image']))
-                        <div class="mb-3">
-                            <img src="{{ asset('storage/' . $settings['about_image']) }}" 
-                                 class="w-48 h-48 object-cover rounded-xl border border-gray-200 shadow-sm">
-                        </div>
-                    @endif
-                    <input type="file" name="about_image" accept="image/*" 
-                           class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-600 hover:file:bg-green-100 transition cursor-pointer">
-                    <p class="text-xs text-gray-400 mt-2">💡 Gunakan gambar persegi (1:1). Maks 3MB.</p>
-                </div>
             </div>
         </div>
 
