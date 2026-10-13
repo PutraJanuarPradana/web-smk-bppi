@@ -146,13 +146,14 @@
                     <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 text-center group cursor-pointer" 
                          data-aos="fade-up" data-aos-delay="{{ $index * 100 }}"
                          onclick="window.location='{{ route('majors.index') }}'">
-                        <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-2xl group-hover:bg-blue-600 transition-colors duration-300">
-                            @if($major->icon)
-                                <img src="{{ asset('storage/' . $major->icon) }}" class="w-14 h-14 object-contain group-hover:brightness-0 group-hover:invert transition">
-                            @else
-                                <svg class="w-10 h-10 text-blue-600 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
-                            @endif
-                        </div>
+                        <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-2xl overflow-hidden">
+    @if($major->icon)
+        <img src="{{ asset('storage/' . $major->icon) }}" 
+             class="w-14 h-14 object-contain transition-transform duration-500 group-hover:scale-125">
+    @else
+        <svg class="w-10 h-10 text-blue-600 transition-transform duration-500 group-hover:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+    @endif
+</div>
                         <h3 class="font-bold text-lg text-gray-800 mb-2">{{ $major->name }}</h3>
                         <p class="text-sm text-gray-500 leading-relaxed">{{ Str::limit($major->description, 80) }}</p>
                     </div>

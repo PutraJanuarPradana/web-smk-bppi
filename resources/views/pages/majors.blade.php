@@ -32,15 +32,16 @@
             @if($majors->count() > 0)
                 <div class="space-y-8">
                     @foreach($majors as $index => $major)
-                        <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg overflow-hidden transition-all duration-300"
+                        <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg overflow-hidden transition-all duration-300 group"
                              data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
                                 <div class="md:col-span-1 flex items-center justify-center">
-                                    <div class="w-40 h-40 flex items-center justify-center bg-blue-50 rounded-3xl">
+                                    <div class="w-40 h-40 flex items-center justify-center bg-blue-50 rounded-3xl overflow-hidden">
                                         @if($major->icon)
-                                            <img src="{{ asset('storage/' . $major->icon) }}" class="w-28 h-28 object-contain">
+                                            <img src="{{ asset('storage/' . $major->icon) }}" 
+                                                 class="w-28 h-28 object-contain transition-transform duration-500 group-hover:scale-110">
                                         @else
-                                            <svg class="w-20 h-20 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+                                            <svg class="w-20 h-20 text-blue-600 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
                                         @endif
                                     </div>
                                 </div>
