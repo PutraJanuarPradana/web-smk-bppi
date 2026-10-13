@@ -107,24 +107,28 @@
                     </a>
                 </div>
 
-                <!-- Kanan: Gambar/Visual -->
-                <div data-aos="fade-left" class="relative">
-                    <div class="aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl shadow-2xl overflow-hidden relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="text-center text-white p-8">
-                                <div class="w-24 h-24 mx-auto bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-4">
-                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
-                                </div>
-                                <h3 class="text-2xl font-bold">Unggul & Berkarakter</h3>
-                                <p class="text-blue-100 mt-2">Mencetak Generasi Siap Kerja</p>
-                            </div>
-                        </div>
+<!-- Kanan: Google Maps (Ukuran Kotak) -->
+<div data-aos="fade-left" class="relative">
+    <div class="aspect-square rounded-2xl shadow-2xl overflow-hidden relative bg-gray-100">
+        @if(!empty($settings['maps_embed_code']))
+            {{-- Google Maps dari setting admin --}}
+            <div class="absolute inset-0 [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0">
+                {!! $settings['maps_embed_code'] !!}
+            </div>
+        @else
+            {{-- Fallback jika belum ada maps --}}
+            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                <div class="text-center text-white p-8">
+                    <div class="w-24 h-24 mx-auto bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </div>
-                    <!-- Decorative dots -->
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-green-500 rounded-2xl -z-10"></div>
+                    <h3 class="text-2xl font-bold">Lokasi Kami</h3>
+                    <p class="text-blue-100 mt-2">Peta belum diatur oleh admin</p>
                 </div>
             </div>
-        </div>
+        @endif
+    </div>
+</div>
     </section>
 
     <!-- ==================== PROGRAM KEAHLIAN ==================== -->
