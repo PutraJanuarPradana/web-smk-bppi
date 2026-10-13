@@ -23,11 +23,49 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.setting.update') }}" method="POST" class="space-y-6">
+    {{-- PENTING: enctype="multipart/form-data" wajib ada untuk upload file --}}
+    <form action="{{ route('admin.setting.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
-        <!-- SECTION: HERO / BERANDA -->
+        <!-- ==================== SECTION: IDENTITAS / LOGO ==================== -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 bg-gradient-to-r from-indigo-600 to-indigo-500">
+                <h2 class="text-lg font-bold text-white flex items-center">
+                    🏷️ Identitas Sekolah
+                </h2>
+                <p class="text-indigo-100 text-sm mt-1">Logo yang tampil di navbar dan footer website.</p>
+            </div>
+            <div class="p-6 space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Logo Sekolah (Ukuran Kotak)</label>
+                    
+                    {{-- Preview logo yang sedang aktif --}}
+                    @if(!empty($settings['site_logo']))
+                        <div class="mb-3 flex items-center gap-4">
+                            <img src="{{ asset('storage/' . $settings['site_logo']) }}" 
+                                 alt="Logo Sekolah" 
+                                 class="w-20 h-20 object-cover rounded-lg border border-gray-200 shadow-sm bg-gray-50">
+                            <div>
+                                <p class="text-xs text-green-600 font-medium">✓ Logo aktif</p>
+                                <p class="text-xs text-gray-400 mt-1">Upload baru untuk menggantinya.</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-3 p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300 text-center">
+                            <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <p class="text-xs text-gray-500">Belum ada logo. Sistem akan menampilkan lingkaran biru "BPPI" sebagai default.</p>
+                        </div>
+                    @endif
+
+                    <input type="file" name="site_logo" accept="image/*" 
+                           class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100 transition cursor-pointer">
+                    <p class="text-xs text-gray-400 mt-2">💡 Format: JPG, PNG, WEBP, SVG. Maks 3MB. Gunakan gambar <strong>persegi (1:1)</strong> agar tampil rapi.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SECTION: HERO / BERANDA ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-500">
                 <h2 class="text-lg font-bold text-white flex items-center">
@@ -58,7 +96,7 @@
             </div>
         </div>
 
-        <!-- SECTION: TENTANG KAMI -->
+        <!-- ==================== SECTION: TENTANG KAMI ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-green-600 to-green-500">
                 <h2 class="text-lg font-bold text-white">📝 Tentang Kami</h2>
@@ -77,10 +115,22 @@
                               placeholder="Tulis deskripsi lengkap tentang sekolah..."
                               class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">{{ $settings['about_text'] }}</textarea>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Foto Section Tentang (Opsional)</label>
+                    @if(!empty($settings['about_image']))
+                        <div class="mb-3">
+                            <img src="{{ asset('storage/' . $settings['about_image']) }}" 
+                                 class="w-48 h-48 object-cover rounded-xl border border-gray-200 shadow-sm">
+                        </div>
+                    @endif
+                    <input type="file" name="about_image" accept="image/*" 
+                           class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-600 hover:file:bg-green-100 transition cursor-pointer">
+                    <p class="text-xs text-gray-400 mt-2">💡 Gunakan gambar persegi (1:1). Maks 3MB.</p>
+                </div>
             </div>
         </div>
 
-        <!-- SECTION: VISI & MISI -->
+        <!-- ==================== SECTION: VISI & MISI ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-500">
                 <h2 class="text-lg font-bold text-white">🎯 Visi & Misi</h2>
@@ -101,7 +151,7 @@
             </div>
         </div>
 
-        <!-- SECTION: KONTAK -->
+        <!-- ==================== SECTION: KONTAK ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-500">
                 <h2 class="text-lg font-bold text-white">📞 Kontak & Alamat</h2>
@@ -131,7 +181,7 @@
             </div>
         </div>
 
-        <!-- SECTION: GOOGLE MAPS -->
+        <!-- ==================== SECTION: GOOGLE MAPS ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-red-600 to-red-500">
                 <h2 class="text-lg font-bold text-white">🗺️ Google Maps</h2>
@@ -148,7 +198,7 @@
             </div>
         </div>
 
-        <!-- SECTION: SOSIAL MEDIA -->
+        <!-- ==================== SECTION: SOSIAL MEDIA ==================== -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 bg-gradient-to-r from-pink-600 to-pink-500">
                 <h2 class="text-lg font-bold text-white">🌐 Sosial Media</h2>

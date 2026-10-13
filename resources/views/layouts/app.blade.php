@@ -8,8 +8,6 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-<!-- ============ Alpine.js + Plugins (URUTAN PENTING!) ============ -->
-
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -43,9 +41,15 @@
                 
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                    <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-white font-bold text-sm md:text-base">BPPI</span>
-                    </div>
+                    @if(!empty($settings['site_logo']))
+                        <img src="{{ asset('storage/' . $settings['site_logo']) }}" 
+                             alt="Logo SMK BPPI" 
+                             class="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300">
+                    @else
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-white font-bold text-sm md:text-base">BPPI</span>
+                        </div>
+                    @endif
                     <div>
                         <h1 class="text-lg md:text-xl font-bold text-gray-800 leading-tight">SMK BPPI</h1>
                         <p class="text-xs text-gray-500 hidden md:block">Baleendah</p>
@@ -110,9 +114,15 @@
                 <!-- Kolom 1: Sekolah -->
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold">BPPI</span>
-                        </div>
+                        @if(!empty($settings['site_logo']))
+                            <img src="{{ asset('storage/' . $settings['site_logo']) }}" 
+                                 alt="Logo SMK BPPI" 
+                                 class="w-12 h-12 object-cover rounded-lg shadow-md">
+                        @else
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">BPPI</span>
+                            </div>
+                        @endif
                         <div>
                             <h3 class="text-lg font-bold text-white">SMK BPPI</h3>
                             <p class="text-sm text-gray-400">Baleendah</p>

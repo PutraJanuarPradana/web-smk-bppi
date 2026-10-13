@@ -93,17 +93,30 @@ class HomeController extends Controller
     private function getSettings()
     {
         return [
+            // Hero
             'hero_video_url'    => Setting::get('hero_video_url', ''),
             'hero_title'        => Setting::get('hero_title', 'SELAMAT DATANG DI SMK BPPI'),
             'hero_subtitle'     => Setting::get('hero_subtitle', 'Hijau Bersih Berkarakter'),
+
+            // Logo & Tentang
+            'site_logo'         => Setting::get('site_logo', ''),          // ← BARU
             'about_title'       => Setting::get('about_title', 'Tentang SMK BPPI'),
             'about_text'        => Setting::get('about_text', ''),
+            'about_image'       => Setting::get('about_image', ''),         // ← BARU
+
+            // Visi & Misi
             'vision'            => Setting::get('vision', ''),
             'mission'           => Setting::get('mission', ''),
+
+            // Kontak
             'address'           => Setting::get('address', ''),
             'email'             => Setting::get('email', ''),
             'phone'             => Setting::get('phone', ''),
+
+            // Maps
             'maps_embed_code'   => Setting::get('maps_embed_code', ''),
+
+            // Sosial Media
             'social_instagram'  => Setting::get('social_instagram', ''),
             'social_tiktok'     => Setting::get('social_tiktok', ''),
             'social_youtube'    => Setting::get('social_youtube', ''),
