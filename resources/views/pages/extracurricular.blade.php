@@ -35,11 +35,15 @@
                         <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-8 group"
                              data-aos="fade-up" data-aos-delay="{{ ($index % 6) * 100 }}">
                             <div class="flex items-start gap-4">
-                                <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center bg-blue-50 rounded-2xl group-hover:bg-blue-600 transition-colors duration-300">
+                                {{-- Container ikon: hapus efek hover bg, tambah overflow-hidden --}}
+                                <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center bg-blue-50 rounded-2xl overflow-hidden">
                                     @if($eskul->logo)
-                                        <img src="{{ asset('storage/' . $eskul->logo) }}" class="w-14 h-14 object-contain group-hover:brightness-0 group-hover:invert transition">
+                                        {{-- Hanya zoom, tanpa ubah warna --}}
+                                        <img src="{{ asset('storage/' . $eskul->logo) }}" 
+                                             class="w-14 h-14 object-contain transition-transform duration-500 group-hover:scale-125">
                                     @else
-                                        <svg class="w-10 h-10 text-blue-600 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        {{-- Hanya zoom, tanpa ubah warna --}}
+                                        <svg class="w-10 h-10 text-blue-600 transition-transform duration-500 group-hover:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     @endif
                                 </div>
                                 <div class="flex-1 min-w-0">
