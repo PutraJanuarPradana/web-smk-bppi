@@ -131,49 +131,139 @@
 </div>
     </section>
 
-    <!-- ==================== PROGRAM KEAHLIAN ==================== -->
-    @if($majors->count() > 0)
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-14" data-aos="fade-up">
-                <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">Program Keahlian</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4">
-                    Jurusan Unggulan
-                </h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Pilih jurusan yang sesuai dengan minat dan bakatmu untuk masa depan yang gemilang.
-                </p>
+        <!-- ==================== PROGRAM KEAHLIAN (SLIDER INTERAKTIF) ==================== -->
+        @if($majors->count() > 0)
+        <section class="relative py-24 bg-white overflow-hidden" 
+                 x-data="majorSlider({{ $majors->toJson() }})" 
+                 x-init="initSlider()">
+            
+            <!-- Background Effect (Sangat halus di background putih) -->
+            <div class="absolute inset-0 opacity-30 pointer-events-none">
+                <div class="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-100 blur-[120px] rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($majors as $index => $major)
-                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 text-center group cursor-pointer" 
-                         data-aos="fade-up" data-aos-delay="{{ $index * 100 }}"
-                         onclick="window.location='{{ route('majors.index') }}'">
-                        <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-blue-50 rounded-2xl overflow-hidden">
-    @if($major->icon)
-        <img src="{{ asset('storage/' . $major->icon) }}" 
-             class="w-14 h-14 object-contain transition-transform duration-500 group-hover:scale-125">
-    @else
-        <svg class="w-10 h-10 text-blue-600 transition-transform duration-500 group-hover:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
-    @endif
-</div>
-                        <h3 class="font-bold text-lg text-gray-800 mb-2">{{ $major->name }}</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">{{ Str::limit($major->description, 80) }}</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                
+                <!-- Header -->
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">Program Keahlian</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4">Pilih Masa Depanmu</h2>
+                </div>
+
+                <!-- Konten Utama Slider -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[450px]">
+                    
+                    <!-- Kiri: Panah & Kotak Logo -->
+                    <div class="flex flex-col items-center justify-center space-y-6">
+                        <!-- Panah Atas -->
+                        <button @click="prevManual()" class="p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-200 rounded-full text-gray-500 hover:text-blue-600 transition-all duration-300 hover:-translate-y-1 z-20 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                        </button>
+
+                        <!-- Kotak Logo -->
+                        <div class="relative w-48 h-48 md:w-64 md:h-64 bg-white border-2 border-gray-100 rounded-3xl shadow-xl shadow-blue-500/10 flex items-center justify-center p-8 overflow-hidden group">
+                            <template x-for="(major, index) in majors" :key="index">
+                                <div x-show="activeIndex === index" 
+                                     x-transition:enter="transition ease-out duration-700"
+                                     x-transition:enter-start="opacity-0 translate-y-16 scale-90"
+                                     x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                     x-transition:leave="transition ease-in duration-500 absolute inset-0"
+                                     x-transition:leave-start="opacity-100 scale-100"
+                                     x-transition:leave-end="opacity-0 -translate-y-16 scale-90"
+                                     class="w-full h-full flex items-center justify-center">
+                                    
+                                    <template x-if="major.icon">
+                                        <img :src="'/storage/' + major.icon" :alt="major.name" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
+                                    </template>
+                                    <template x-if="!major.icon">
+                                        <svg class="w-24 h-24 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Panah Bawah -->
+                        <button @click="nextManual()" class="p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-200 rounded-full text-gray-500 hover:text-blue-600 transition-all duration-300 hover:translate-y-1 z-20 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
                     </div>
-                @endforeach
+
+                    <!-- Kanan: Penjelasan Singkat -->
+                    <div class="relative">
+                        <template x-for="(major, index) in majors" :key="index">
+                            <div x-show="activeIndex === index" 
+                                 x-transition:enter="transition ease-out duration-700 delay-100"
+                                 x-transition:enter-start="opacity-0 translate-x-16"
+                                 x-transition:enter-end="opacity-100 translate-x-0"
+                                 x-transition:leave="transition ease-in duration-500 absolute inset-0"
+                                 x-transition:leave-start="opacity-100 translate-x-0"
+                                 x-transition:leave-end="opacity-0 -translate-x-16"
+                                 class="space-y-6">
+                                
+                                <h3 class="text-3xl md:text-5xl font-bold text-gray-800" x-text="major.name"></h3>
+                                <p class="text-gray-500 text-lg leading-relaxed line-clamp-4" x-text="major.description || 'Deskripsi jurusan belum tersedia.'"></p>
+                                
+                                <div class="pt-4">
+                                    <a href="{{ route('majors.index') }}" class="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-500/30 group">
+                                        Lihat Lebih Detail
+                                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Bawah: Lihat Semua Jurusan -->
+                <div class="mt-16 text-center">
+                    <a href="{{ route('majors.index') }}" class="inline-flex items-center px-6 py-3 bg-gray-50 border border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 hover:text-blue-600 transition">
+                        Lihat Semua Jurusan
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
             </div>
 
-            <div class="text-center mt-12">
-                <a href="{{ route('majors.index') }}" 
-                   class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition shadow-md hover:shadow-lg">
-                    Lihat Semua Jurusan
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </a>
-            </div>
-        </div>
-    </section>
-    @endif
+            <!-- Script Alpine.js untuk Logika Slider -->
+            <script>
+                function majorSlider(majorsData) {
+                    return {
+                        majors: majorsData,
+                        activeIndex: 0,
+                        timer: null,
+                        
+                        initSlider() {
+                            this.startTimer();
+                        },
+                        
+                        startTimer() {
+                            this.timer = setInterval(() => {
+                                this.nextAuto();
+                            }, 3000);
+                        },
+                        
+                        resetTimer() {
+                            clearInterval(this.timer);
+                            this.startTimer();
+                        },
+                        
+                        nextAuto() {
+                            this.activeIndex = (this.activeIndex + 1) % this.majors.length;
+                        },
+                        
+                        nextManual() {
+                            this.activeIndex = (this.activeIndex + 1) % this.majors.length;
+                            this.resetTimer();
+                        },
+                        
+                        prevManual() {
+                            this.activeIndex = (this.activeIndex - 1 + this.majors.length) % this.majors.length;
+                            this.resetTimer();
+                        }
+                    }
+                }
+            </script>
+        </section>
+        @endif
 
     <!-- ==================== BERITA TERBARU ==================== -->
     @if($news->count() > 0)

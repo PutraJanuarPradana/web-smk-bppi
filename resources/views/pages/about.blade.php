@@ -53,7 +53,7 @@
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold">{{ $settings['about_title'] ?? 'Tentang SMK BPPI Baleendah' }}</h3>
-                        <p class="text-blue-100 text-sm mt-1">Hijau Bersih Berkarakter</p>
+                        <p class="text-blue-100 text-sm mt-1">Go Digi Go Industri</p>
                     </div>
                 </div>
                 <div class="text-blue-50 leading-relaxed whitespace-pre-line text-base md:text-lg">
