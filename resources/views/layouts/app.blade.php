@@ -11,14 +11,8 @@
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Custom Style -->
     <style>
         [x-cloak] { display: none !important; }
-        
-        /* 
-           PENTING: JANGAN gunakan `html { scroll-behavior: smooth; }` 
-           karena akan mematikan library Lenis (Smooth Scroll).
-        */
         
         /* Efek hover blur untuk galeri & berita */
         .hover-blur-item .hover-overlay {
@@ -44,9 +38,19 @@
             <div class="flex justify-between items-center h-16 md:h-20">
                 
                 <!-- Logo -->
+                @php
+                    // Mengambil logo dari settings atau global, dengan fallback aman
+                    $logoPath = $settings['site_logo'] ?? $global_site_logo ?? '';
+                @endphp
                 <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                    @if(!empty($settings['site_logo']))
-                        <img src="{{ asset('storage/' . $settings['site_logo']) }}" class="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300">
+                    @if(!empty($logoPath))
+                        <img src="{{ asset('storage/' . $logoPath) }}" alt="Logo SMK BPPI" 
+                             class="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <!-- Fallback jika gambar rusak (hidden by default) -->
+                        <div style="display: none;" class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-full items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-white font-bold text-sm md:text-base">BPPI</span>
+                        </div>
                     @else
                         <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
                             <span class="text-white font-bold text-sm md:text-base">BPPI</span>
@@ -66,12 +70,14 @@
                     
                     @foreach($menuItems as $menu)
                         @if($menu->children->count() > 0)
-                            <!-- Dropdown Menu -->
+                            <!-- Dropdown Menu Desktop -->
                             <div class="relative" @mouseenter="openDropdown = {{ $menu->id }}" @mouseleave="openDropdown = null">
-                                <button class="px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center text-gray-600 hover:text-blue-600 hover:bg-gray-50">
+                                <!-- Tag <a> agar bisa diklik menuju halamannya sendiri -->
+                                <a href="{{ url($menu->url) }}" class="px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center {{ request()->path() == ltrim($menu->url, '/') || (request()->path() == '/' && $menu->url == '/') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50' }}">
                                     {{ $menu->label }}
+                                    <!-- Ikon Panah -->
                                     <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="openDropdown === {{ $menu->id }} ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
+                                </a>
                                 
                                 <!-- Dropdown Content -->
                                 <div x-show="openDropdown === {{ $menu->id }}" 
@@ -91,7 +97,7 @@
                                 </div>
                             </div>
                         @else
-                            <!-- Menu Biasa -->
+                            <!-- Menu Biasa Desktop -->
                             <a href="{{ url($menu->url) }}" class="px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 {{ request()->path() == ltrim($menu->url, '/') || (request()->path() == '/' && $menu->url == '/') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50' }}">
                                 {{ $menu->label }}
                             </a>
@@ -120,11 +126,18 @@
                 @foreach($menuItems as $menu)
                     @if($menu->children->count() > 0)
                         <!-- Mobile Dropdown (Accordion) -->
-                        <div x-data="{ open: false }" class="border-b border-gray-50 last:border-0">
-                            <button @click="open = !open" class="w-full flex justify-between items-center px-4 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-50 transition">
-                                {{ $menu->label }}
-                                <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
+                        <div x-data="{ open: false }" class="border-b border-gray-50 last:border-0 py-1">
+                            <div class="flex justify-between items-center">
+                                <!-- Link Utama Mobile (Bisa diklik) -->
+                                <a href="{{ url($menu->url) }}" class="block px-4 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 flex-1">
+                                    {{ $menu->label }}
+                                </a>
+                                <!-- Tombol Panah Mobile (Hanya untuk buka submenu) -->
+                                <button @click="open = !open" class="p-3 text-gray-400 hover:text-blue-600 focus:outline-none">
+                                    <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                            </div>
+                            <!-- Submenu Mobile -->
                             <div x-show="open" x-collapse x-cloak class="pl-4 pb-2 space-y-1">
                                 @foreach($menu->children as $child)
                                     <a href="{{ url($child->url) }}" class="block px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-lg">
@@ -157,8 +170,11 @@
                 <!-- Kolom 1: Sekolah -->
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        @if(!empty($settings['site_logo']))
-                            <img src="{{ asset('storage/' . $settings['site_logo']) }}" class="w-12 h-12 object-cover rounded-lg shadow-md">
+                        @if(!empty($logoPath))
+                            <img src="{{ asset('storage/' . $logoPath) }}" class="w-12 h-12 object-cover rounded-lg shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div style="display: none;" class="w-12 h-12 bg-blue-600 rounded-full items-center justify-center">
+                                <span class="text-white font-bold">BPPI</span>
+                            </div>
                         @else
                             <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
                                 <span class="text-white font-bold">BPPI</span>
@@ -270,26 +286,23 @@
     <!-- Inisialisasi Smooth Scroll (Lenis) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Setup Lenis
             const lenis = new Lenis({
-                duration: 1.2, // Semakin besar semakin halus/lambat
+                duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
                 direction: 'vertical',
                 gestureDirection: 'vertical',
                 smooth: true,
                 mouseMultiplier: 1,
-                smoothTouch: false, // Biarkan false agar di HP tidak lag
+                smoothTouch: false,
                 touchMultiplier: 2,
             });
 
-            // 2. Jalankan Loop Animasi Lenis
             function raf(time) {
                 lenis.raf(time);
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
 
-            // 3. Hubungkan Anchor Link (contoh: href="#tentang") dengan Lenis
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -300,23 +313,19 @@
                 });
             });
 
-            // 4. Integrasi dengan Intro Animasi (Agar scroll mati saat intro)
             if (document.getElementById('intro-overlay')) {
-                lenis.stop(); // Matikan scroll di awal
-                
-                // Pantau jika overlay intro sudah dihapus (display: none)
+                lenis.stop(); 
                 const observer = new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
                         if (mutation.attributeName === 'style') {
                             const target = mutation.target;
                             if (target.id === 'intro-overlay' && target.style.display === 'none') {
-                                lenis.start(); // Aktifkan scroll setelah intro selesai
+                                lenis.start();
                                 observer.disconnect();
                             }
                         }
                     });
                 });
-                
                 observer.observe(document.getElementById('intro-overlay'), { attributes: true });
             }
         });
