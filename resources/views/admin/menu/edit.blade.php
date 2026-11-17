@@ -35,6 +35,18 @@
                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm">
         </div>
 
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Jadikan Sub-menu Dari (Opsional)</label>
+            <select name="parent_id" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                <option value="">-- Jadikan Menu Utama --</option>
+                @foreach($parentMenus as $parent)
+                    <option value="{{ $parent->id }}" {{ (old('parent_id', $menu->parent_id) == $parent->id) ? 'selected' : '' }}>
+                        {{ $parent->label }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Urutan</label>

@@ -11,8 +11,10 @@
         <h1 class="text-2xl font-bold text-gray-800 mt-2">Tambah Menu Baru</h1>
     </div>
 
+    {{-- BLOK INI SANGAT PENTING UNTUK MENAMPILKAN ERROR JIKA GAGAL SIMPAN --}}
     @if ($errors->any())
         <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+            <p class="font-bold mb-2">Terjadi kesalahan:</p>
             <ul class="list-disc list-inside text-sm">
                 @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
             </ul>
@@ -25,16 +27,28 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Label Menu <span class="text-red-500">*</span></label>
             <input type="text" name="label" value="{{ old('label') }}" required 
-                   placeholder="Contoh: Berita, Galeri, Kontak" 
+                   placeholder="Contoh: Profil, Berita, Galeri" 
                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">URL / Tujuan <span class="text-red-500">*</span></label>
             <input type="text" name="url" value="{{ old('url') }}" required 
-                   placeholder="Contoh: /berita, /galeri, /kontak, atau /" 
+                   placeholder="Contoh: /berita, /profil, /kontak, atau /" 
                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm">
-            <p class="text-xs text-gray-400 mt-2">Gunakan <code>/</code> untuk beranda, atau <code>/berita</code> untuk halaman berita.</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Jadikan Sub-menu Dari (Opsional)</label>
+            <select name="parent_id" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                <option value="">-- Jadikan Menu Utama --</option>
+                @foreach($parentMenus as $parent)
+                    <option value="{{ $parent->id }}" {{ old('parent_id') == $parent->id ? 'selected' : '' }}>
+                        {{ $parent->label }}
+                    </option>
+                @endforeach
+            </select>
+            <p class="text-xs text-gray-400 mt-2">Pilih menu induk jika ini adalah sub-menu (dropdown).</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -42,7 +56,6 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Urutan</label>
                 <input type="number" name="order" value="{{ old('order', 0) }}" min="0" 
                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                <p class="text-xs text-gray-400 mt-2">Angka kecil = posisi kiri.</p>
             </div>
 
             <div>

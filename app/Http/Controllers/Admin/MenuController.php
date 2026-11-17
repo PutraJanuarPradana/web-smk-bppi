@@ -10,13 +10,16 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::orderBy('order', 'asc')->paginate(15);
+        // Hanya ambil menu utama (parent_id = null), beserta anak-anaknya
+        $menus = Menu::with('children')->whereNull('parent_id')->orderBy('order', 'asc')->get();
         return view('admin.menu.index', compact('menus'));
     }
 
     public function create()
     {
-        return view('admin.menu.create');
+        // Ambil menu utama untuk pilihan dropdown parent
+        $parentMenus = Menu::whereNull('parent_id')->orderBy('order', 'asc')->get();
+        return view('admin.menu.create', compact('parentMenus'));
     }
 
     public function store(Request $request)
@@ -25,6 +28,7 @@ class MenuController extends Controller
             'label'     => 'required|string|max:100',
             'url'       => 'required|string|max:255',
             'order'     => 'nullable|integer|min:0',
+            'parent_id' => 'nullable|exists:menus,id',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -32,6 +36,7 @@ class MenuController extends Controller
             'label'     => $request->label,
             'url'       => $request->url,
             'order'     => $request->order ?? 0,
+            'parent_id' => $request->parent_id,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
@@ -40,7 +45,9 @@ class MenuController extends Controller
 
     public function edit(Menu $menu)
     {
-        return view('admin.menu.edit', compact('menu'));
+        // Ambil menu utama, kecuali dirinya sendiri
+        $parentMenus = Menu::whereNull('parent_id')->where('id', '!=', $menu->id)->get();
+        return view('admin.menu.edit', compact('menu', 'parentMenus'));
     }
 
     public function update(Request $request, Menu $menu)
@@ -49,6 +56,7 @@ class MenuController extends Controller
             'label'     => 'required|string|max:100',
             'url'       => 'required|string|max:255',
             'order'     => 'nullable|integer|min:0',
+            'parent_id' => 'nullable|exists:menus,id',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -56,6 +64,7 @@ class MenuController extends Controller
             'label'     => $request->label,
             'url'       => $request->url,
             'order'     => $request->order ?? 0,
+            'parent_id' => $request->parent_id,
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
