@@ -100,7 +100,9 @@
                 <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">Tim Kami</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Kenali Tim Sekolah</h2>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            
+            <!-- PERUBAHAN: grid-cols-3 dan justify-center -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-center">
                 @foreach($staff as $index => $person)
                     <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl overflow-hidden transition-all duration-300 group"
                          data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
@@ -122,6 +124,7 @@
                     </div>
                 @endforeach
             </div>
+            
             <div class="text-center mt-10">
                 <a href="{{ route('staff.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition shadow-md">
                     Lihat Semua Tim

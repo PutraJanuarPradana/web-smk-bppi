@@ -55,7 +55,7 @@ class HomeController extends Controller
 
     public function staff()
     {
-        $staff = Staff::paginate(12);
+        $staff = Staff::paginate(8);
         $settings = $this->getSettings();
         return view('pages.staff', compact('staff', 'settings'));
     }
@@ -77,7 +77,7 @@ class HomeController extends Controller
     public function about()
     {
         $settings = $this->getSettings();
-        $staff = Staff::take(4)->get();
+        $staff = Staff::take(3)->get();
         return view('pages.about', compact('settings', 'staff'));
     }
 
